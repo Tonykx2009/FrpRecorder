@@ -1,1 +1,65 @@
-name: Release
+# 工作流名称：构建并自动签名 Android APK
+name: Build & Sign APK
+
+# 触发方式：
+# 1. push 到 main 分支自动构建
+# 2. 可在 Actions 页面手动触发
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# 构建任务
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 拉取项目代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 设置 Java 17（Android 官方推荐）
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # 3. 赋予 gradlew 可执行权限（Linux 必需）
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # 4. 创建签名文件 keystore.jks
+      # 从 GitHub Secrets 读取 BASE64 编码的签名文件并解码
+      - name: Create keystore from secret
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ./keystore.jks
+
+      # 5. 配置签名信息到 local.properties
+      # 把密钥别名、密码等写入配置，Gradle 自动读取
+      - name: Configure signing config
+        run: |
+          cat >> local.properties << EOF
+          KEYSTORE_FILE=../keystore.jks
+          KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS=${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
+          EOF
+
+      # 6. 编译并自动签名 Release APK
+      - name: Build signed Release APK
+        run: ./gradlew assembleRelease
+
+      # 7. 重命名 APK，方便识别
+      - name: Rename APK
+        run: |
+          mv app/build/outputs/apk/release/app-release.apk WebRTCRecorder-signed.apk
+
+      # 8. 上传最终可安装的 APK
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WebRTCRecorder-signed
+          path: WebRTCRecorder-signed.apk
