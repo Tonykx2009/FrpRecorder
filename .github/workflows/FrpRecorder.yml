@@ -5,8 +5,8 @@ name: Build & Sign APK
 # 1. push 到 main 分支自动构建
 # 2. 可在 Actions 页面手动触发
 on:
-  push:
-    branches: [ main ]
+ # push:
+ #   branches: [ main ]
   workflow_dispatch:
 
 # 构建任务
