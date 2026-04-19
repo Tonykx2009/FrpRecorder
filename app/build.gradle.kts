@@ -23,6 +23,28 @@ android {
     aaptOptions {
         noCompress "frpc"
     }
+    signingConfigs {
+        release {
+            // 从 local.properties 读取签名配置
+            Properties props = new Properties()
+            file("local.properties").withInputStream { stream ->
+                props.load(stream)
+            }
+
+            storeFile file(props.getProperty('KEYSTORE_BASE64'))
+            storePassword props.getProperty('KEYSTORE_PASSWORD')
+            keyAlias props.getProperty('KEY_ALIAS')
+            keyPassword props.getProperty('KEY_PASSWORD')
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release // 使用签名
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
