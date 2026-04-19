@@ -31,7 +31,7 @@ android {
                 props.load(stream)
             }
 
-            storeFile file(props.getProperty('KEYSTORE_BASE64'))
+            storeFile file(props.getProperty('KEYSTORE_FILE'))
             storePassword props.getProperty('KEYSTORE_PASSWORD')
             keyAlias props.getProperty('KEY_ALIAS')
             keyPassword props.getProperty('KEY_PASSWORD')
