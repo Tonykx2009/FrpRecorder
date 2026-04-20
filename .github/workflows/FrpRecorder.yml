@@ -35,14 +35,14 @@ jobs:
       # 从 GitHub Secrets 读取 BASE64 编码的签名文件并解码
       - name: Create keystore from secret
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > ./keystore.jks
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+          ls -la keystore.jks   # 验证是否生成成功
 
       # 5. 配置签名信息到 local.properties
       # 把密钥别名、密码等写入配置，Gradle 自动读取
       - name: Configure signing config
         run: |
-          cat >> local.properties << EOF
-          KEYSTORE_FILE=../keystore.jks
+          KEYSTORE_FILE=$(pwd)/keystore.jks
           KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS=${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
