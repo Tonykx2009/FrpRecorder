@@ -49,8 +49,4 @@ jobs:
           name: WebRTCRecorder-Signed
           path: ${{steps.sign_app.outputs.signedFile}}
 
-      - name: Delete old Workflow Runs
-        uses: GitRML/delete-workflow-runs@main
-        with:
-          retain_days: 1
-          keep_minimum_runs: 4
+      
