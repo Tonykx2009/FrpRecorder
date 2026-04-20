@@ -34,6 +34,12 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      - name: Delete old Workflow Runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 4
+
       # 4. 创建签名文件 keystore.jks
       # 从 GitHub Secrets 读取 BASE64 编码的签名文件并解码
       # echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
@@ -68,8 +74,4 @@ jobs:
           name: WebRTCRecorder-signed
           path: WebRTCRecorder-signed.apk
           
-      - name: Delete old Workflow Runs
-        uses: GitRML/delete-workflow-runs@main
-        with:
-          retain_days: 1
-          keep_minimum_runs: 8
+      
