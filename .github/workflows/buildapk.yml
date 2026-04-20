@@ -1,0 +1,57 @@
+name: Build apk & Sign
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: production  # 可选，不加也可以
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # 编译出未签名包
+      - name: Assemble release unsigned APK
+        run: ./gradlew assembleRelease
+
+      # 官方工具自动签名（不会出现base64换行/解码失败）
+      - name: Sign APK
+        uses: r0adkll/sign-android-release@v1
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      # 上传最终可安装的签名包
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: WebRTCRecorder-Signed
+          path: ${{steps.sign_app.outputs.signedFile}}
+
+     - name: Delete old Workflow Runs
+        uses: GitRML/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 4
