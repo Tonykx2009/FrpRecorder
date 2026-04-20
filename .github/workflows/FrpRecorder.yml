@@ -1,5 +1,8 @@
 # 工作流名称：构建并自动签名 Android APK
 name: Build & Sign APK
+# 强制使用 Node24，消除警告
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 # 触发方式：
 # 1. push 到 main 分支自动构建
@@ -33,9 +36,10 @@ jobs:
 
       # 4. 创建签名文件 keystore.jks
       # 从 GitHub Secrets 读取 BASE64 编码的签名文件并解码
+      # echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
       - name: Create keystore from secret
-        run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > keystore.jks
+        run: |   
+          printf '%s' '${{ secrets.KEYSTORE_BASE64 }}' | base64 -d > keystore.jks
           ls -la keystore.jks   # 验证是否生成成功
 
       # 5. 配置签名信息到 local.properties
