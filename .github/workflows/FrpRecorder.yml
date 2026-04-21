@@ -3,6 +3,7 @@ name: Build & Sign APK
 # 强制使用 Node24，消除警告
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  DELETE_OLD_WORKFLOW: true
 
 # 触发方式：
 # 1. push 到 main 分支自动构建
@@ -36,6 +37,7 @@ jobs:
 
       - name: Delete old Workflow Runs
         uses: GitRML/delete-workflow-runs@main
+        if: env.DELETE_OLD_WORKFLOW == 'true' 
         with:
           retain_days: 1
           keep_minimum_runs: 4
