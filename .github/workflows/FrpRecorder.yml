@@ -17,6 +17,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
 
     steps:
       # 1. 拉取项目代码
@@ -35,12 +38,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      - name: Delete old Workflow Runs
-        uses: GitRML/delete-workflow-runs@main
-        if: env.DELETE_OLD_WORKFLOW == 'true' 
-        with:
-          retain_days: 1
-          keep_minimum_runs: 4
+      - name: Delete workflow runs
+       uses: Mattraks/delete-workflow-runs@v2
+       with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         repository: ${{ github.repository }}
+         retain_days: 30
+         keep_minimum_runs: 6
 
       # 4. 创建签名文件 keystore.jks
       # 从 GitHub Secrets 读取 BASE64 编码的签名文件并解码
