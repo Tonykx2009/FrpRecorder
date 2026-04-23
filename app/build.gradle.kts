@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.webrtcrecorder"
+    namespace = "com.example.webrtcrecorder" 
     compileSdk = 34
 
     defaultConfig {
@@ -31,15 +31,14 @@ android {
 
     androidResources {
         // assets 不压缩 frpc（正确）
-        // noCompress += "frpc"
-        noCompress.add("frpc")
+        noCompress += "frpc"
+
     }
 }
 
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
-    // implementation("org.webrtc:google-webrtc:1.0.32006") 不可用
-    implementation("com.github.videomv:google-webrtc:1.0.32006")
+    implementation("org.webrtc:google-webrtc:1.0.32002")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
 }
