@@ -1,0 +1,36 @@
+# 工作流名称：构建并自动签名 Android APK
+name: Build & Sign APK
+# 强制使用 Node24，消除警告
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+
+# 触发方式：
+# 1. push 到 main 分支自动构建
+# 2. 可在 Actions 页面手动触发
+on:
+ # push:
+ #   branches: [ main ]
+  workflow_dispatch:
+
+# 构建任务
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+     - name: Delete workflow runs
+       uses: Mattraks/delete-workflow-runs@v2
+       with:
+         token: ${{ secrets.GITHUB_TOKEN }}
+         repository: ${{ github.repository }}
+         retain_days: 2
+         keep_minimum_runs: 3
+
+
+
+
+          
+      
