@@ -40,7 +40,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     // implementation("com.google:webrtc:1.0.32006")
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     implementation("org.nanohttpd:nanohttpd:2.3.1")
-    // 直接引用 AAR
-    implementation(files("https://github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar"))
+    // 直接引用 本地AAR
+    // implementation(files("/libs/google-webrtc-1.0.32006.aar"))
 }
