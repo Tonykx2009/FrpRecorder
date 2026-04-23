@@ -39,6 +39,6 @@ android {
 dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
-    implementation("org.webrtc:google-webrtc:1.0.32002")
+    implementation("io.github.vshmygin:webrtc-android:1.1.0")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
 }
