@@ -29,11 +29,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-     packaging {
-        resources {
-            // 不压缩 frpc 文件
-            noCompress += ["frpc"]
-        }
+    androidResources {
+        // 对 frpc 后缀文件不压缩
+        noCompress += "frpc"
     }
 }
 
