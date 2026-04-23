@@ -19,7 +19,9 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") } 
+        // maven { url = uri("https://jitpack.io") } 
+        // https://github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar
+        maven { setUrl("https://raw.githubusercontent.com/elesos/webrtc/master/") }
     }
 }
 
