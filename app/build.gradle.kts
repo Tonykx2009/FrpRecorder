@@ -42,5 +42,5 @@ dependencies {
     implementation("com.google:webrtc:1.0.32006")
     implementation("org.nanohttpd:nanohttpd:2.3.1")
     // 直接引用 libs 下的该 AAR
-    // implementation(files("libs/google-webrtc-1.0.32006.aar"))
+    // implementation(files("https://github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar"))
 }
