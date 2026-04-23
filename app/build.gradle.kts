@@ -32,7 +32,7 @@ android {
      packaging {
         resources {
             // 不压缩 frpc 文件
-            noCompress.add("frpc")
+            noCompress += "frpc"
         }
     }
 }
