@@ -22,13 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") } // 必加
-    }
-}
-
 rootProject.name = "FrpRecorder"
 include(":app")
