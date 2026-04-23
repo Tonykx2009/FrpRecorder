@@ -31,6 +31,9 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
+      - name: Get WEBRTC
+        run: curl -L -o app/libs/google-webrtc-1.0.32006.aar https:/github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
