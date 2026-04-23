@@ -29,7 +29,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    aaptOptions {
+    packagingOptions {
         noCompress.add("frpc")
     }
 }
