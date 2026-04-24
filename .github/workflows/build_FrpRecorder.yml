@@ -2,7 +2,7 @@ name: Build FrpRecorder
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
+  WEBRTC_URL: https://github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar
 on:
   workflow_dispatch:
 
@@ -32,7 +32,10 @@ jobs:
           cache: gradle
 
       - name: Get WEBRTC
-        run: curl -L -o app/libs/google-webrtc-1.0.32006.aar https:/github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar
+        run: |
+          curl -L -o app/libs/google-webrtc-1.0.32006.aar env.WEBRTC_URL
+          # 可选：验证文件是否下载成功
+          ls -la app/libs/
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
