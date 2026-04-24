@@ -31,11 +31,18 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Get WEBRTC
-        run: |
-          curl -L -o app/libs/google-webrtc-1.0.32006.aar env.WEBRTC_URL
+      #- name: Get WEBRTC
+      #  run: |
+       #   curl -L -o app/libs/google-webrtc-1.0.32006.aar env.WEBRTC_URL
           # 可选：验证文件是否下载成功
-          ls -la app/libs/
+        #  ls -la app/libs/
+      - name: Download AAR from Release
+        uses: robinraju/release-downloader@v1.12
+        with:
+          repository: "Tonykx2009/FrpRecorder"
+          tag: "webrtc-1.0.32006"
+          fileName: "google-webrtc-1.0.32006.aar"
+          out-file-path: "app/libs"
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
