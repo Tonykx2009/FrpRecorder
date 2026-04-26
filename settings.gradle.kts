@@ -1,12 +1,6 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
@@ -19,9 +13,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        // maven { url = uri("https://jitpack.io") } 
-        // https://github.com/elesos/webrtc/blob/master/google-webrtc-1.0.32006.aar
-        maven { setUrl("https://raw.githubusercontent.com/elesos/webrtc/master/") }
     }
 }
 
