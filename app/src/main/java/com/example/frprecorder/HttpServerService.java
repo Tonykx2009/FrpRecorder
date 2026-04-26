@@ -28,17 +28,17 @@ public class HttpServerService extends NanoHTTPD {
             return Response.newFixedLengthResponse(
                     Status.UNAUTHORIZED,
                     "text/html; charset=utf-8",
-                    "<h2>密码错误</h2>"
+                    "请输入正确密码"
             );
         }
 
         String uri = session.getUri();
         if (uri.equals("/")) {
-            return getFileListResponse();
+            return getFileList();
         }
 
-        File file = new File(videoDir, uri);
         try {
+            File file = new File(videoDir, uri);
             return Response.newFixedLengthResponse(
                     Status.OK,
                     "video/mp4",
@@ -48,27 +48,26 @@ public class HttpServerService extends NanoHTTPD {
         } catch (Exception e) {
             return Response.newFixedLengthResponse(
                     Status.NOT_FOUND,
-                    "text/plain; charset=utf-8",
+                    "text/plain",
                     "文件不存在"
             );
         }
     }
 
-    private Response getFileListResponse() {
+    private Response getFileList() {
         File dir = new File(videoDir);
         File[] files = dir.listFiles((d, n) -> n.endsWith(".mp4"));
-
         StringBuilder sb = new StringBuilder();
-        sb.append("<html><head><meta charset=utf-8></head><body><h3>视频列表</h3><ul>");
 
+        sb.append("<html><head><meta charset=utf-8></head><body><h3>视频列表</h3><ul>");
         if (files != null) {
             for (File f : files) {
                 sb.append("<li><a href=\"").append(f.getName()).append("\">")
                   .append(f.getName()).append("</a></li>");
             }
         }
-
         sb.append("</ul></body></html>");
+
         return Response.newFixedLengthResponse(
                 Status.OK,
                 "text/html; charset=utf-8",
