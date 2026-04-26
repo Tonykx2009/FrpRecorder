@@ -1,15 +1,19 @@
 plugins {
+    id("com.android.application") version "8.7.1" apply false
+}
+
+plugins {
     id("com.android.application")
 }
 
 android {
-    namespace = "com.example.webrtcrecorder" 
-    compileSdk = 34
+    namespace = "com.example.webrtcrecorder"
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.webrtcrecorder"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -29,10 +33,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    androidResources {
-        // assets 不压缩 frpc（正确）
-        noCompress += "frpc"
+    aaptOptions {
+        noCompress.add("frpc")
+    }
 
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 }
 
