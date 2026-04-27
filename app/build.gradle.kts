@@ -25,15 +25,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
-    aaptOptions {
-        noCompress.add("frpc")
-    }
+    //aaptOptions {
+    //    noCompress.add("frpc")
+   // }
 
     packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
         jniLibs {
             useLegacyPackaging = true
         }
@@ -44,7 +47,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
-    implementation("org.nanohttpd:nanohttpd:2.3.1")
+    implementation("com.github.amoseui:nanohttpd:2.3.9")
     // 直接引用 本地AAR
     // implementation(files("/libs/google-webrtc-1.0.32006.aar"))
 }
