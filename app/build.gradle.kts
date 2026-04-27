@@ -29,10 +29,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    //aaptOptions {
-    //    noCompress.add("frpc")
-   // }
-
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -44,8 +40,8 @@ android {
 }
 
 dependencies {
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
     //implementation("com.github.amoseui:nanohttpd:2.3.9")
     // 引用本地AAR
