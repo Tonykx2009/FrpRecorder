@@ -38,7 +38,8 @@ public class WebRTCRecorder {
         capturer = new Camera1Enumerator(false).createCapturer(
                 new Camera1Enumerator(false).getDeviceNames()[0], null);
 
-        capturer.initialize(egl.getEglBaseContext(), null, sv);
+        SurfaceTextureHelper surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", egl.getEglBaseContext());
+        capturer.initialize(surfaceTextureHelper, this, sv);
         capturer.startCapture(w, h, 30);
     }
 
