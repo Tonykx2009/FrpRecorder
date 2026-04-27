@@ -1,9 +1,6 @@
-package com.example.webrtcrecorder;
+package com.example.frprecorder;
 
-import org.nanohttpd.protocols.http.IHTTPSession;
-import org.nanohttpd.protocols.http.NanoHTTPD;
-import org.nanohttpd.protocols.http.response.Response;
-import org.nanohttpd.protocols.http.response.Status;
+import fi.iki.elonen.NanoHTTPD;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,36 +22,26 @@ public class HttpServerService extends NanoHTTPD {
         String pwd = params.get("pwd");
 
         if (pwd == null || !pwd.equals(password)) {
-            return Response.newFixedLengthResponse(
-                    Status.UNAUTHORIZED,
-                    "text/html; charset=utf-8",
-                    "请输入正确密码"
-            );
+            return newFixedLengthResponse(Response.Status.UNAUTHORIZED,
+                    "text/html; charset=utf-8", "<h2>密码错误</h2>");
         }
 
         String uri = session.getUri();
         if (uri.equals("/")) {
-            return getFileList();
+            return getFileListResponse();
         }
 
         try {
             File file = new File(videoDir, uri);
-            return Response.newFixedLengthResponse(
-                    Status.OK,
-                    "video/mp4",
-                    new FileInputStream(file),
-                    file.length()
-            );
+            return newFixedLengthResponse(Response.Status.OK,
+                    "video/mp4", new FileInputStream(file), file.length());
         } catch (Exception e) {
-            return Response.newFixedLengthResponse(
-                    Status.NOT_FOUND,
-                    "text/plain",
-                    "文件不存在"
-            );
+            return newFixedLengthResponse(Response.Status.NOT_FOUND,
+                    "text/plain", "文件不存在");
         }
     }
 
-    private Response getFileList() {
+    private Response getFileListResponse() {
         File dir = new File(videoDir);
         File[] files = dir.listFiles((d, n) -> n.endsWith(".mp4"));
         StringBuilder sb = new StringBuilder();
@@ -68,10 +55,7 @@ public class HttpServerService extends NanoHTTPD {
         }
         sb.append("</ul></body></html>");
 
-        return Response.newFixedLengthResponse(
-                Status.OK,
-                "text/html; charset=utf-8",
-                sb.toString()
-        );
+        return newFixedLengthResponse(Response.Status.OK,
+                "text/html; charset=utf-8", sb.toString());
     }
 }
