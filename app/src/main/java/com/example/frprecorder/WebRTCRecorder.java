@@ -38,7 +38,7 @@ public class WebRTCRecorder {
         capturer = new Camera1Enumerator(false).createCapturer(
                 new Camera1Enumerator(false).getDeviceNames()[0], null);
 
-        capturer.initialize(egl.getEglBaseContext(), null, (VideoCapturer.VideoCapturerObserver) sv);
+        capturer.initialize(egl.getEglBaseContext(), null, sv);
         capturer.startCapture(w, h, 30);
     }
 
