@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Comparator;
 import org.webrtc.SurfaceTextureHelper;
+import org.webrtc.CapturerObserver;
 
 public class WebRTCRecorder {
     private final Context ctx;
@@ -40,7 +41,7 @@ public class WebRTCRecorder {
                 new Camera1Enumerator(false).getDeviceNames()[0], null);
 
         SurfaceTextureHelper surfaceTextureHelper = SurfaceTextureHelper.create("CaptureThread", egl.getEglBaseContext());
-        capturer.initialize(surfaceTextureHelper, null, sv);
+        capturer.initialize(surfaceTextureHelper, null, (CapturerObserver) this);
         capturer.startCapture(w, h, 30);
     }
 
