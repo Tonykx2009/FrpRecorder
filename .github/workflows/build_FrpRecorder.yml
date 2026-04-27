@@ -47,20 +47,19 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      # 编译出未签名包
-      - name: Assemble release unsigned APK
-        run: ./gradlew assembleRelease
+      - name: Decode Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > keystore.jks
 
-      # 官方工具自动签名（不会出现base64换行/解码失败）
-      - name: Sign APK
-        uses: android-actions/sign-android@v2
-        id: sign
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.KEYSTORE_BASE64 }}
-          alias: ${{ secrets.KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+      - name: Build Release APK
+        env:
+          KEYSTORE_PATH: keystore.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assembleRelease
 
 
       # 上传最终可安装的签名包
@@ -68,6 +67,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: WebRTCRecorder-Signed
-          path: ${{steps.sign_app.outputs.signedFile}}
+          path: app/build/outputs/apk/release/*.apk
+
+      - name: Clean up keystore
+        if: always()
+        run: rm -f keystore.jks
 
       
