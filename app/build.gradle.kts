@@ -16,11 +16,14 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release")
+            //isMinifyEnabled = false
+            //proguardFiles(
+            //    getDefaultProguardFile("proguard-android-optimize.txt"),
+            //    "proguard-rules.pro"
+            //    signingConfig signingConfigs.release
+            //)
         }
     }
 
@@ -35,6 +38,14 @@ android {
         }
         jniLibs {
             useLegacyPackaging = true
+        }
+    }
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("KEYSTORE_PATH") ?: "keystore.jks")
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("KEY_ALIAS")
+            keyPassword = System.getenv("KEY_PASSWORD")
         }
     }
 }
