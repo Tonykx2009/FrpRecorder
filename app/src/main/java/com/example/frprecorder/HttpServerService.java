@@ -35,11 +35,11 @@ public class HttpServerService {
         isRunning = false;
         try {
             serverSocket.close();
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
     }
 
     private class Handler extends Thread {
-        private Socket socket;
+        private final Socket socket;
 
         public Handler(Socket socket) {
             this.socket = socket;
@@ -83,7 +83,7 @@ public class HttpServerService {
             } finally {
                 try {
                     socket.close();
-                } catch (Exception e) {}
+                } catch (Exception ignored) {}
             }
         }
 
