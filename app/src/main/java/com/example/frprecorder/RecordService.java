@@ -34,5 +34,7 @@ public class RecordService extends Service {
     }
 
     @Override
-    public IBinder getBinder(Intent intent) { return null; }
+    public IBinder onBind(Intent intent) {
+        return null; 
+    }
 }
