@@ -53,7 +53,7 @@ jobs:
 
       # 官方工具自动签名（不会出现base64换行/解码失败）
       - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
+        uses: android-actions/sign-android-release@v1
         id: sign_app
         with:
           releaseDirectory: app/build/outputs/apk/release
