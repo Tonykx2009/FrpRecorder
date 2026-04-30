@@ -31,11 +31,7 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      #- name: Get WEBRTC
-      #  run: |
-       #   curl -L -o app/libs/google-webrtc-1.0.32006.aar env.WEBRTC_URL
-          # 可选：验证文件是否下载成功
-        #  ls -la app/libs/
+
       - name: Download AAR from Release
         uses: robinraju/release-downloader@v1.12
         with:
@@ -62,7 +58,7 @@ jobs:
           echo "Secret length: ${#KEYSTORE_BASE64}"
           echo "First 20 chars: ${KEYSTORE_BASE64:0:20}"
     
-          # 解码并保存
+          # 解码并保存在根目录
           echo "$KEYSTORE_BASE64" | base64 -d > keystore.jks
     
           # 验证文件是否生成成功
