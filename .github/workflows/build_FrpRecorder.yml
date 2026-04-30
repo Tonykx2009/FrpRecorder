@@ -58,13 +58,13 @@ jobs:
           echo "Secret length: ${#KEYSTORE_BASE64}"
           echo "First 20 chars: ${KEYSTORE_BASE64:0:20}"
     
-          # 解码并保存在根目录
-          echo "$KEYSTORE_BASE64" | base64 -d > keystore.jks
+          # 解码并保存
+          echo "$KEYSTORE_BASE64" | base64 -d > app/keystore.jks
     
           # 验证文件是否生成成功
-          if [ -f keystore.jks ]; then
+          if [ -f app/keystore.jks ]; then
             echo "✅ Keystore file created successfully"
-            ls -lh keystore.jks
+            ls -lh app/keystore.jks
           else
             echo "❌ Failed to create keystore file"
             exit 1
