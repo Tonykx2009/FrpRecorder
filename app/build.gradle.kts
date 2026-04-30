@@ -25,14 +25,16 @@ android {
     
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.getByName("release")
-            //isMinifyEnabled = false
-            //proguardFiles(
-            //    getDefaultProguardFile("proguard-android-optimize.txt"),
-            //    "proguard-rules.pro"
-            //    signingConfig signingConfigs.release
-            //)
+        }
+        
+        debug {
+            isDebuggable = true
         }
     }
 
